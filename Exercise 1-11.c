@@ -6,6 +6,7 @@ likely to uncover bugs if there are any? */
     
     To test this program, you would want to throw a variety of edge cases at it.
     It might have issues with punctuation or symbols that might not necessarily be considered "words" (numeric symbols, etc).
+    It might miss the word at the very end of the file.
 */
 
 /* Original Word Count Program */
