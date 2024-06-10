@@ -2,3 +2,6 @@
 2 newlines
 	1 tab
 random  test  with  two  or     more     spaces
+HelloWorld
+here is a backslash -> \
+newline
