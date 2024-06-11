@@ -11,6 +11,8 @@ main() {
     int c, state, word_length;
     int word_frequencies[MAX_WORD_LENGTH];
 
+    putchar('\n');
+
     for (int i = 0; i < MAX_WORD_LENGTH; ++i) {
         word_frequencies[i] = 0;
     }
@@ -46,6 +48,35 @@ main() {
         putchar('\n');
     }
 
+    putchar('\n');
+
     printf("Vertical Histogram of Word Frequencies\n");
-    
+
+    int max_frequency = 0;
+    for (int i = 0; i < MAX_WORD_LENGTH; ++i) {
+        if (word_frequencies[i] > max_frequency) {
+            max_frequency = word_frequencies[i];
+        }
+    }
+
+    for (int i = max_frequency; i > 0; --i) {
+        for (int j = 0; j < MAX_WORD_LENGTH; ++j) {
+            if (word_frequencies[j] >= i) {
+                printf("  *");
+            }
+            else {
+                printf("   ");
+            }
+        }
+        putchar('\n');
+    }
+
+    for (int i = 1; i < MAX_WORD_LENGTH + 1; ++i) {
+        printf("---");
+    }
+    putchar('\n');
+    for (int i = 1; i < MAX_WORD_LENGTH + 1; ++i) {
+        printf("%3d", i);
+    }
+    putchar('\n');
 }
