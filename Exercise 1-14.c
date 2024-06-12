@@ -11,7 +11,7 @@ main() {
     int i, c;
 
     /* We will have it track whitespace (spaces, tabs, and newlines), single digits, and letters (lowercase and capital). */
-    int nwhite[3], , ndigit[10], nletter[52], nother;
+    int nwhite[3], ndigit[10], nletter[52], nother;
 
     /* Initialize Arrays */
     for (i = 0; i < 3; ++i) {
