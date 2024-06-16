@@ -48,4 +48,3 @@ main()
         }
     printf("%d %d %d\n", nl, nw, nc);
 }
-0123456789ACBDEF
