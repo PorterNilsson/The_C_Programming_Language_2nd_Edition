@@ -3,7 +3,7 @@ abcdeABCDE
 
 3 spaces
 2 newlines
-	1 tab
+	1 tab	 
 random  test  with  two  or     more     spaces
 Hello World
 here is a backslash -> \
@@ -18,7 +18,8 @@ likely to uncover bugs if there are any? */
     
     To test this program, you would want to throw a variety of edge cases at it.
     It might have issues with punctuation or symbols that might not necessarily be considered "words" (numeric symbols, etc).
-*/
+*/  
+
 
 /* Original Word Count Program */
 #include <stdio.h>
