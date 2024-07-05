@@ -4,13 +4,13 @@ and to delete entirely blank lines. */
 #include <stdio.h>
 #define MAXLINE 1000
 
-int my_getline(char line[], int limit);
+int myGetline(char line[], int limit);
 
 main () {
     int len, i;
     char line[MAXLINE];
 
-    while ((len = my_getline(line, MAXLINE)) != 0) {
+    while ((len = myGetline(line, MAXLINE)) != 0) {
         if (len > 1) {
             i = 1; /* To account for \n index */
             while (line[len - i] == ' ' || line[len - i] == '\t') {
@@ -25,7 +25,7 @@ main () {
     }
 }
 
-int my_getline(char line[], int limit) {
+int myGetline(char line[], int limit) {
     int i, c;
 
     for (i = 0; i < limit && (c = getchar()) != EOF && c != '\n'; ++i)

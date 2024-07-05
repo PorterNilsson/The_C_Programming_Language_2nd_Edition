@@ -4,20 +4,20 @@ write a program that reverses its input a line at a time. */
 #include <stdio.h>
 #define MAXLINE 1000
 
-int my_getline(char line[], int limit);
+int myGetline(char line[], int limit);
 void reverse(char line[], char reverse[], int length);
 
 main() {
     char line[MAXLINE], reversed[MAXLINE];
     int len;
 
-    while ((len = my_getline(line, MAXLINE)) != 0) {
+    while ((len = myGetline(line, MAXLINE)) != 0) {
         reverse(line, reversed, len);
         printf("%s", reversed);
     }
 }
 
-int my_getline(char line[], int limit) {
+int myGetline(char line[], int limit) {
     int i, c;
 
     for (i = 0; i < limit && (c = getchar()) != EOF && c != '\n'; ++i)

@@ -3,13 +3,13 @@
 #include <stdio.h>
 #define MAXLINE 1000
 
-int my_getline(char line[], int limit);
+int myGetline(char line[], int limit);
 
 main() {
     int len;
     char line[MAXLINE];
 
-    while ((len = my_getline(line, MAXLINE)) != 0) {
+    while ((len = myGetline(line, MAXLINE)) != 0) {
         if (len > 80) {
             printf("%s", line);
         }
@@ -17,7 +17,7 @@ main() {
 
 }
 
-int my_getline(char line[], int limit) {
+int myGetline(char line[], int limit) {
     int c, i;
 
     for (i = 0; i < limit - 1 && (c = getchar()) != EOF && c != '\n'; ++i)
