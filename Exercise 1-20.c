@@ -7,20 +7,33 @@ Should n be a variable or a symbolic parameter? */
 #define MAXLINE 1000
 #define TAB_COLUMNS 4
 
-int getline(char line[], int maxline);
+int myGetline(char line[], int maxline);
 
 main() {
     
     char line[MAXLINE];
-    int len;
+    int len, i, offset, filler, j;
 
-    while ((len = getline(line, MAXLINE) != 0)) {
-        
+    while ((len = myGetline(line, MAXLINE)) != 0) {
+        offset = 0;
+        for (i = 0; i < len; ++i) {
+            if (line[i] == '\t') {
+                filler = TAB_COLUMNS - (offset % TAB_COLUMNS);
+                for (j = 0; j < filler; ++j) {
+                    putchar(' ');
+                    ++offset;
+                }
+            }
+            else {
+                putchar(line[i]);
+                ++offset;
+            }
+        }
     }
 
 }
 
-int getline(char s[],int lim) {
+int myGetline(char s[],int lim) {
     int c, i;
     for (i = 0; i < lim - 1 && (c = getchar()) != EOF && c != '\n'; ++i)
         s[i] = c;
