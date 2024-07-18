@@ -2,10 +2,12 @@
 of blanks to space to the next tab stop. Assume a fixed set of tab stops, say every n columns.
 Should n be a variable or a symbolic parameter? */
 
+/* Answer: Parameter should be symbolic, otherwise it must be obtained from the user at runtime. */
+
 #include <stdio.h>
 
 #define MAXLINE 1000
-#define TAB_COLUMNS 4
+#define TAB_COLUMNS 2
 
 int myGetline(char line[], int maxline);
 
