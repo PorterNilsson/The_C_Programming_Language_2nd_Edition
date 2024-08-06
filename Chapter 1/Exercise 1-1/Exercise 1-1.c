@@ -6,4 +6,4 @@ out parts of the program, to see what error messages you get. */
 main()
 {
     printf("hello, world\n");
-} 
+}
