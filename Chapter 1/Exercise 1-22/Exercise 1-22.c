@@ -11,25 +11,51 @@ before the specified column. */
 int myGetline(char line[], int maxline);
 
 main() {
-    int len, i, cut = LONG_LINE, printed;
+    int len, i, cut, printed, whitespace;
     char line[MAX_LINE];
 
     while ((len = myGetline(line, MAX_LINE)) != 0) {
+        printed = 0;
+        cut = 0;
         while (len > 0) {
-            printed = 0;
+            whitespace = 0;
             if (len > LONG_LINE) {
-                cut += LONG_LINE;
-                while (line[cut] == ' ') {
-                    ++cut;
+
+                // printf("***LONG LINE***");
+                // printf("***CUT: %d***", cut);
+
+                if ((cut % LONG_LINE) == 0) {
+                    cut += LONG_LINE;
                 }
+                else {
+                    cut += (LONG_LINE - (cut % LONG_LINE));
+                }
+
+                while (line[cut + whitespace] == ' ') {
+                    ++whitespace;
+                }
+
+                // printf("***CUT: %d***", cut);
+
                 for (i = 0 + printed; i < cut; ++i) {
                     putchar(line[i]);
                 }
-                printed += cut;
-                len -= printed;
+                if (line[i] != '\n') {
+                    putchar('\n');
+                }
+
+                cut += whitespace;
+                len -= (cut - printed);
+                printed = cut;
+
+                // printf("***PRINTED: %d***", printed);
+                // printf("***LEN: %d***", len);
             }
             else {
-                for (i = 0; i < len; ++i) {
+
+                // printf("***SHORT LINE***");
+
+                for (i = 0 + printed; i < len + printed; ++i) {
                     putchar(line[i]);
                 }
                 len = 0;
