@@ -57,7 +57,13 @@ int getline(char line[], int limit) {
     The Program
         - Reads output one line at a time.
         - First checks if we're inside of a mulit-line comment to potentially skip all other checks
-            - We assume that multi line comments are always such, and that no code is contained on their same lines
-            - Assume that single line comments either include the whole line or trail after legitimate code
+            We assume that multi line comments are always such, and that no code is contained on their same lines
+            Assume that single line comments either include the whole line or trail after legitimate code
         - Check for single line comment
+        - if we're not in a comment:
+            Look for any of the 3 brackets, braces, quotes, etc.
+            If any of the 3 don't have a matching number of open and closed brackets, then it's not legal ("illegal ( paraenteses[ )"
+        - For escape sequences, check if it's in a legal form...
+            legal letters
+            up to three octal or two hex
 */
