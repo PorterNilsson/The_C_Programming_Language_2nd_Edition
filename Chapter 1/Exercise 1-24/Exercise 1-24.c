@@ -12,15 +12,77 @@ generality.) */
 int getline(char line[], int limit); 
 
 int main(void) {
+
     int len;
     char line[MAXLINE];
 
-    while((len = getline(line, MAXLINE)) != 0) {
+    int in_multi_line_comment = 0, in_double_quote = 0, in_single_quote = 0;
+    int opening_parenthesis = 0, closing_parenthesis = 0;
+    int opening_bracket = 0, closing_bracket = 0;
+    int opening_brace = 0, closing_brace = 0;
+
+    int syntax_error = 0, lines_checked = 1, syntax_error_line = 0, state_changed = 0;
+
+    while((len = getline(line, MAXLINE)) != 0 && !syntax_error) {
         for (int i = 0; i < len; ++i) {
-            putchar(line[i]);
+            if (!in_multi_line_comment && !in_double_quote && !in_single_quote) {
+                /* Multi-line comment check */
+                if (i < len - 1 && !state_changed) {
+                    if (line[i] == '/' && line[i + 1] == '*') {
+                        in_multi_line_comment = 1;
+                        state_changed = 1;
+                        syntax_error_line = lines_checked;
+                    }
+                }
+
+                /* Double quote check */
+                if (!state_changed && line[i] == '\"') {
+                    printf("Checking Double Quote on line %d\n", lines_checked);
+                    in_double_quote = 1;
+                    state_changed = 1;
+                    syntax_error_line = lines_checked;
+                }
+
+                /* Single quote check */
+                if (!state_changed && line[i] == '\'') {
+                    in_single_quote = 1;
+                    state_changed = 1;
+                    syntax_error_line = lines_checked;
+                }
+            }
+
+            if (i < len - 1 && in_multi_line_comment && !state_changed) {
+                if (line[i] == '*' && line[i + 1] == '/') {
+                    in_multi_line_comment = 0;
+                    state_changed = 1;
+                }
+            }
+            
+            if (!state_changed && in_double_quote && (lines_checked == syntax_error_line)) {
+                printf("Undone on line %d\n", lines_checked);
+                in_double_quote = 0;
+                state_changed = 1;
+            }
+
+            if (!state_changed && in_single_quote) {
+                in_single_quote = 0;
+                state_changed = 1;
+            }
+
+            state_changed = 0;
         }
+        ++lines_checked;
     }
-    char letter = '\"';
+
+    if (in_multi_line_comment) {
+        printf("Syntax error starting on line %d: Unterminated multi-line comment\n", syntax_error_line);
+    }
+    if (in_double_quote) {
+        printf("Syntax error starting on line %d: Unterminated double quote\n", syntax_error_line);
+    }
+    if (in_single_quote) {
+        printf("Syntax error starting on line %d: Unterminated single quote\n", syntax_error_line);
+    }
 
 }
 

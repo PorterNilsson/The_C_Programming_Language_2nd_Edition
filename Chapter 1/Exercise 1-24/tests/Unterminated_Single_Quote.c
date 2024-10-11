@@ -35,7 +35,7 @@ main() {
                 for (i = 0 + printed; i < cut; ++i) {
                     putchar(line[i]);
                 }
-                if (line[i] != '\n') {
+                if (line[i] != '\n) {
                     putchar('\n');
                 }
 

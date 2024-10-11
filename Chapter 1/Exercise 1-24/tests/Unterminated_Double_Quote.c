@@ -11,6 +11,9 @@ before the specified column. */
 int myGetline(char line[], int maxline);
 
 main() {
+
+    printf("Hello world!);
+
     int len, i, cut, printed, whitespace;
     char line[MAX_LINE];
 
