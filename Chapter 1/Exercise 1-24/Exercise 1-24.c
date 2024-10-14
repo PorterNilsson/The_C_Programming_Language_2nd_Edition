@@ -37,7 +37,6 @@ int main(void) {
 
                 /* Double quote check */
                 if (!state_changed && line[i] == '\"') {
-                    printf("Checking Double Quote on line %d\n", lines_checked);
                     in_double_quote = 1;
                     state_changed = 1;
                     syntax_error_line = lines_checked;
@@ -59,16 +58,18 @@ int main(void) {
             }
             
             if (!state_changed && in_double_quote && (lines_checked == syntax_error_line)) {
-                printf("Undone on line %d\n", lines_checked);
-                in_double_quote = 0;
-                state_changed = 1;
+                if (line[i] == '\"') {
+                    in_double_quote = 0;
+                    state_changed = 1;
+                }
             }
 
             if (!state_changed && in_single_quote) {
-                in_single_quote = 0;
-                state_changed = 1;
+                if (line[i] == '\'') {
+                    in_single_quote = 0;
+                    state_changed = 1;
+                }
             }
-
             state_changed = 0;
         }
         ++lines_checked;
