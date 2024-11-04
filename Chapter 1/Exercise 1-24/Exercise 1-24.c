@@ -25,9 +25,9 @@ int main(void) {
 
     while((len = getline(line, MAXLINE)) != 0 && !syntax_error) {
         for (int i = 0; i < len; ++i) {
-            if (!in_multi_line_comment && !in_double_quote && !in_single_quote) {
+            if (!in_multi_line_comment && !in_double_quote && !in_single_quote && !syntax_error) {
                 /* Multi-line comment check */
-                if (i < len - 1 && !state_changed) {
+                if (i < len - 1) {
                     if (line[i] == '/' && line[i + 1] == '*') {
                         in_multi_line_comment = 1;
                         state_changed = 1;
@@ -48,26 +48,55 @@ int main(void) {
                     state_changed = 1;
                     syntax_error_line = lines_checked;
                 }
+
+                /* Curly Brace checks */
+                if (!state_changed && line[i] == '{') {
+                    opening_brace++;
+                }
+                if (!state_changed && line[i] == '}') {
+                    closing_brace++;
+                }
+                /* Bracket checks */
+                if (!state_changed && line[i] == '[') {
+                    opening_bracket++;
+                }
+                if (!state_changed && line[i] == ']') {
+                    closing_bracket++;
+                }
+                /* Parentheses checks */
+                if (!state_changed && line[i] == '(') {
+                    opening_parenthesis++;
+                }
+                if (!state_changed && line[i] == ')') {
+                    closing_parenthesis++;
+                }
+				
+				if (!state_changed && line[i] == '\\') {
+					if (line[i + 1] != 'a' || line[i + 1] != 'b' || line[i + 1] != 'f' || line[i + 1] != 'n' || line[i + 1] != 'r' || line[i + 1] != 't' || line[i + 1] != 'v' || line[i + 1] != '\\' || line[i + 1] != '?' || line[i + 1] != '\'' || line[i + 1] != '"' || line[i + 1] != 'x') {
+                        syntax_error = 1;
+                        i++;
+                        syntax_error_line = lines_checked;
+				}
             }
 
-            if (i < len - 1 && in_multi_line_comment && !state_changed) {
-                if (line[i] == '*' && line[i + 1] == '/') {
-                    in_multi_line_comment = 0;
-                    state_changed = 1;
+            /* Make sure comments and quotes terminal */
+            if (!state_changed) {
+                if (i < len - 1 && in_multi_line_comment) {
+                    if (line[i] == '*' && line[i + 1] == '/') {
+                        in_multi_line_comment = 0;
+                    }
                 }
-            }
-            
-            if (!state_changed && in_double_quote && (lines_checked == syntax_error_line)) {
-                if (line[i] == '\"') {
-                    in_double_quote = 0;
-                    state_changed = 1;
+                
+                if (in_double_quote && (lines_checked == syntax_error_line)) {
+                    if (line[i] == '\"') {
+                        in_double_quote = 0;
+                    }
                 }
-            }
 
-            if (!state_changed && in_single_quote) {
-                if (line[i] == '\'') {
-                    in_single_quote = 0;
-                    state_changed = 1;
+                if (in_single_quote && (lines_checked == syntax_error_line)) {
+                    if (line[i] == '\'') {
+                        in_single_quote = 0;
+                    }
                 }
             }
             state_changed = 0;
@@ -84,7 +113,21 @@ int main(void) {
     if (in_single_quote) {
         printf("Syntax error starting on line %d: Unterminated single quote\n", syntax_error_line);
     }
-
+    /* This program simply looks for an equal number of opening and closing braces */
+    if (opening_bracket != closing_bracket) {
+        printf("Number of opening and closing brackets do not match.\n");
+    }
+    if (opening_brace != closing_brace) {
+        printf("Number of opening and closing braces do not match.\n");
+    }
+    if (opening_parenthesis != closing_parenthesis) {
+        printf("Number of opening and closing parentheses do not match.\n");
+    }
+    
+    /* Error checking for escape sequences doesn't include octal (for time purposes) */
+    if (syntax_error) {
+        printf("Syntax error on line %d: Invalid escape sequence", syntax_error_line);
+    }
 }
 
 int getline(char line[], int limit) {
@@ -99,34 +142,3 @@ int getline(char line[], int limit) {
     line[i] = '\0';
     return i;
 }
-
-/* TODO:
-    1. Parentheses
-        - Arbitrary depth
-        - Opening and closing parentheses
-    2. Brackets
-        - Closing braces
-        - Must match scope if combined with other braces
-    3. Braces
-    4. Quotes
-        - " "
-        - Look for unmatched quotes (Quotes don't nest unless escape sequenced)
-    5. Escape sequences
-        - /a, /b, /f, /n, /r, /t. /v, //, /?, /', /", /octal (up to 3 nums 0-7), /xhex (0-f) (upper or lowercase)
-    6. Comments
-        - //
-        - multi line
-    
-    The Program
-        - Reads output one line at a time.
-        - First checks if we're inside of a mulit-line comment to potentially skip all other checks
-            We assume that multi line comments are always such, and that no code is contained on their same lines
-            Assume that single line comments either include the whole line or trail after legitimate code
-        - Check for single line comment
-        - if we're not in a comment:
-            Look for any of the 3 brackets, braces, quotes, etc.
-            If any of the 3 don't have a matching number of open and closed brackets, then it's not legal ("illegal ( paraenteses[ )"
-        - For escape sequences, check if it's in a legal form...
-            legal letters
-            up to three octal or two hex
-*/
