@@ -94,9 +94,9 @@ int main(void) {
 	printf("Signed Long Max (defined): %ld\n", LONG_MAX);
 	signed long computed_signed_long_max = 0;
 	while (computed_signed_long_max >= 0) {
-		computed_signed_long_max = computed_signed_long_max + 0xffffffffffff;
+		computed_signed_long_max = computed_signed_long_max + 0x7fffffff;
 	}
-	computed_signed_long_max = computed_signed_long_max - 0xffffffffffff;
+	computed_signed_long_max = computed_signed_long_max - 0x7fffffff;
 	while (computed_signed_long_max >= 0) {
 		computed_signed_long_max++;
 	}
@@ -106,18 +106,25 @@ int main(void) {
 	printf("Signed Long Min (defined): %ld\n", LONG_MIN);
 	signed long computed_signed_long_min = 0;
 	while (computed_signed_long_min <= 0) {
-		computed_signed_long_min = computed_signed_long_min - 0xffffffffffff;
+		computed_signed_long_min = computed_signed_long_min - 0x7fffffff;
 	}
-	computed_signed_long_min = computed_signed_long_min + 0xffffffffffff;
-	/* Last working HERE TODO */
+	computed_signed_long_min = computed_signed_long_min + 0x7fffffff;
+	while (computed_signed_long_min <= 0) {
+		computed_signed_long_min--;
+	}
+	computed_signed_long_min++;
 	printf("Signed Long Min (computed): %ld\n", computed_signed_long_min);
 
 	printf("Unsigned Long Max (defined): %lu\n", ULONG_MAX);
 	unsigned long computed_unsigned_long_max = 1;
 	while (computed_unsigned_long_max > 0) {
-		computed_unsigned_long_max = computed_unsigned_long_max + 0xffffffffffff;
+		computed_unsigned_long_max = computed_unsigned_long_max + 0xffffffff;
 	}
-	computed_unsigned_long_max = computed_unsigned_long_max - 0xffffffffffff;
+	computed_unsigned_long_max = computed_unsigned_long_max - 0xffffffff;
+	while(computed_unsigned_long_max > 0) {
+		computed_unsigned_long_max++;
+	}
+	computed_unsigned_long_max--;
 	printf("Unsigned Long Max (computed): %lu\n", computed_unsigned_long_max);
 
 	return 0;
