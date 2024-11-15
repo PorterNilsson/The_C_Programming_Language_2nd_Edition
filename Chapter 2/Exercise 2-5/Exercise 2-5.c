@@ -8,26 +8,57 @@ location.) */
 #define MAXSTRING 1000
 
 int my_getline(char line[], int limit);
-int any(char s1[], char s2[]);
+int any(const char s1[], const char s2[]);
 
 int main(void) {
 	
 	char s1[MAXSTRING];
 	char s2[MAXSTRING];
 	
-	printf("Enter Original String:\n")
+	printf("Enter Original String:\n");
 	my_getline(s1, MAXSTRING);
 	
 	printf("Enter Characters to Locate (First Appearance of Any):\n");
 	my_getline(s2, MAXSTRING);
 	
-	printf("Location: %d", any(s1, s2));
+	printf("Location (Zero-Indexed): %d\n", any(s1, s2));
 	
 	return 0;
 }
 
 int any(const char s1[], const char s2[]) {
-	
+
+    enum boolean {FALSE, TRUE};
+    enum boolean match = FALSE;
+
+    unsigned int len_s1 = 0;
+    unsigned int len_s2 = 0;
+
+    while (s1[len_s1] != '\0') {
+        len_s1++;
+    }
+    while(s2[len_s2] != '\0') {
+        len_s2++;
+    }
+    len_s1--, len_s2--;
+
+    int first = len_s1;
+
+    for (int i = 0; i < len_s2; i++) {
+        for (int j = 0; j < len_s1; j++) {
+            if (s1[j] == s2[i] && j < first) {
+                first = j;
+                match = TRUE;
+            }
+        }
+    }
+
+    if (match) {
+        return first;
+    }
+    else {
+        return -1;
+    }
 }
 
 int my_getline(char line[], int limit) {

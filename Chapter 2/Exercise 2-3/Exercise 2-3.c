@@ -25,7 +25,7 @@ int htoi(const char hex_string[]) {
 	enum boolean {FALSE, TRUE};
 	
 	int i = 0, integer = 0;
-	int prefix = FALSE;
+	enum boolean prefix = FALSE;
 	int stop_index = 0;
 	
 	if (hex_string[1] == 'x' || hex_string[1] == 'X') {
