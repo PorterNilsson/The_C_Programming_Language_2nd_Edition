@@ -40,4 +40,36 @@ int any(const char s1[], const char s2[]) {
     while(s2[len_s2] != '\0') {
         len_s2++;
     }
-    len_s1--, len_s
+    len_s1--, len_s2--;
+
+    int first = len_s1;
+
+    for (int i = 0; i < len_s2; i++) {
+        for (int j = 0; j < len_s1; j++) {
+            if (s1[j] == s2[i] && j < first) {
+                first = j;
+                match = TRUE;
+            }
+        }
+    }
+
+    if (match) {
+        return first;
+    }
+    else {
+        return -1;
+    }
+}
+
+int my_getline(char line[], int limit) {
+    int i, c;
+
+    for (i = 0; i < limit && (c = getchar()) != EOF && c != '\n'; ++i)
+        line[i] = c;
+    if (c == '\n') {
+        line[i] = c;
+        ++i;
+    }
+    line[i] = '\0';
+    return i;
+}

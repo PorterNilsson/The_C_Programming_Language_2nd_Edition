@@ -79,4 +79,5 @@ int my_getline(char line[], int limit) {
         ++i;
     }
     line[i] = '\0';
-    ret
+    return i;
+}

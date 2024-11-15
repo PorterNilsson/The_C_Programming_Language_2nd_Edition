@@ -12,4 +12,15 @@ int main(void) {
     return 0;
 }
 
-int setbits(unsigned int x, uns
+int setbits(unsigned int x, unsigned int p, unsigned int n, unsigned int y) {
+    unsigned int mask = ~0;
+    mask = mask << n;
+    mask = ~mask;
+    mask = mask << (p + 1 - n);
+    
+    x = (~mask) & x;
+
+    mask = y & mask;
+
+    return x | mask;
+}
