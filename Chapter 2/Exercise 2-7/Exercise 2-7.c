@@ -10,7 +10,6 @@ int main(void) {
 	printf("%d\n", invert(80, 6, 3));
 
 	return 0;
-	
 }
 
 unsigned int invert(unsigned int x, unsigned int p, unsigned int n) {
@@ -21,13 +20,4 @@ unsigned int invert(unsigned int x, unsigned int p, unsigned int n) {
 	// printf("Mask: %u\n", mask);
 	unsigned int x_inverted = ~x;
 	// printf("X Inverted: %u\n", x_inverted);
-	unsigned int mask_inverted = mask & x_inverted;
-	
-	mask = ~mask;
-	x = x & mask;
-	x = x | mask_inverted;
-	
-	return x;
-	
-}
-
+	unsigned int mask_inverted = mask & x_i
