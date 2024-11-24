@@ -27,13 +27,16 @@ double atof(char s[]) {
 */
 
 #include <stdio.h>
+#include <ctype.h>
 
 double atof(char s[]);
 
 int main(void) {
 	
 	char s[] = "123.456";
-	printf("Float (123.456) = %fd
+	printf("Normal float (123.456) = %g\n", atof(s));
+	char s2[] = "123.456e-3";
+	printf("Scientific notation float (123.456e-3) = %g\n", atof(s2));
 	
 	return 0;
 }
