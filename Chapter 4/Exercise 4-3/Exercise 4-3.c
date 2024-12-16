@@ -5,6 +5,7 @@ the modulus (%) operator and provisions for negative numbers. */
 
 #include <stdio.h>
 #include <stdlib.h>  /* for  atof() */
+#include <math.h>
 
 #define MAXOP   100  /* max size of operand or operator */
 #define NUMBER  '0'  /* signal that a number was found */
@@ -40,6 +41,13 @@ int main(void) {
                     push(pop() / op2);
                 else
                     printf("error: zero divisor\n");
+                break;
+            case '%':
+                op2 = pop();
+                if (op2 != 0.0)
+                    push(fmod(pop(), op2));
+                else
+                    printf("error: zero divsor\n");
                 break;
             case '\n':
                 printf("\t%.8g\n", pop());
@@ -96,7 +104,7 @@ int getop(char s[]) {
     if (!isdigit(c) && c != '.')
         return c;      /* not a number */
     i = 0;
-    if (isdigit(c))    /* collect integer part */
+    if (isdigit(c) || c == '-')    /* collect integer part */
         while (isdigit(s[++i] = c = getch()))
             ;
     if (c == '.')      /* collect fraction part */
