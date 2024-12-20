@@ -21,6 +21,7 @@ int main(void) {
     char s[MAXOP];
     
     while ((type = getop(s)) != EOF) {
+        printf("Operator/Operand: %s\n", s);
         switch (type) {
             case NUMBER:
                 push(atof(s));
@@ -96,13 +97,17 @@ void ungetch(int);
 
 /* getop:  get next character or numeric operand */
 int getop(char s[]) {
-    int i, c;
+    int i, c, temp;
 
     while ((s[0] = c = getch()) == ' ' || c == '\t')
         ;
     s[1] = '\0';
-    if (!isdigit(c) && c != '.')
+    temp = getch();
+    if (!isdigit(c) && !isdigit(temp)) {
+        ungetch(temp);
         return c;      /* not a number */
+    }
+    ungetch(temp);
     i = 0;
     if (isdigit(c) || c == '-')    /* collect integer part */
         while (isdigit(s[++i] = c = getch()))
