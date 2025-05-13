@@ -13,8 +13,8 @@ duplicate it, and to swap the top two elements. Add a command to clear the stack
 int getop(char []);
 void push(double);
 double pop(void);
-void print_top(unsigned int n);
-void duplicate_stack(double stack[]);
+void print_top(unsigned int);
+void duplicate_stack(double []);
 
 /* reverse Polish calculator */
 int main(void) {
@@ -62,7 +62,14 @@ int main(void) {
     }
 
     printf("Stack Top:\n");
-    print_top(1);
+    print_top(3);
+
+    printf("Duplicate Stack:\n");
+    double new_stack[100];
+    duplicate_stack(new_stack);
+    printf("%f\n", new_stack[1]);
+
+    
 
     return 0;
 }
@@ -103,8 +110,12 @@ void print_top(unsigned int n) {
     }
 }
 
-void duplicate_stack(double stack[]) {
+void duplicate_stack(double new_stack[]) {
+    for (int i = 0; i < sp; i++) {
+        new_stack[i] = val[i];
+    }
 
+    return;
 }
 
 /* ----- FILE 3 ----- */
