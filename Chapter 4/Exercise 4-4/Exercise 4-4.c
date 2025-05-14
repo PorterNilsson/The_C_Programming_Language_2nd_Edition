@@ -14,7 +14,9 @@ int getop(char []);
 void push(double);
 double pop(void);
 void print_top(unsigned int);
-void duplicate_stack(double []);
+void duplicate_stack();
+void swap();
+void clear();
 
 /* reverse Polish calculator */
 int main(void) {
@@ -64,12 +66,13 @@ int main(void) {
     printf("Stack Top:\n");
     print_top(3);
 
-    printf("Duplicate Stack:\n");
-    double new_stack[100];
-    duplicate_stack(new_stack);
-    printf("%f\n", new_stack[1]);
+    duplicate_stack();
 
-    
+    swap();
+    printf("Stack After Swapping the Top Two Elements:\n");
+    print_top(3);
+
+    clear();
 
     return 0;
 }
@@ -80,6 +83,7 @@ int main(void) {
 
 int sp = 0;          /* next free stack position */
 double val[MAXVAL];  /* value stack */     /* push:  push f onto value stack */
+double new_stack[MAXVAL];
 
 void push(double f) {
     if (sp < MAXVAL)
@@ -110,11 +114,29 @@ void print_top(unsigned int n) {
     }
 }
 
-void duplicate_stack(double new_stack[]) {
+void duplicate_stack() {
     for (int i = 0; i < sp; i++) {
         new_stack[i] = val[i];
     }
 
+    return;
+}
+
+void swap() {
+    if (sp < 2) {
+        return;
+    } 
+    else {
+        double temp = val[sp - 1];
+        val[sp - 1] = val[sp - 2];
+        val[sp - 2] = temp;
+    }
+
+    return;
+}
+
+void clear() {
+    sp = 0;
     return;
 }
 
